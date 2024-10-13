@@ -42,4 +42,5 @@
 
 \begin{itemize}
  \item $[[ x1 @ x2 @ x3 ]]$ and $[[ ?(x1 @ x2)? @ x3 ]]$ are expanded to the same latex sources because of the rules in ``parsing'' section, but you can always use \verb|?( ... )?|. $[[ x : t ]]$
+ \item $[[ t1 -> t2 -> t3 ]]$
 \end{itemize}

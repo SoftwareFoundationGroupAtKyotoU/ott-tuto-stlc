@@ -19,7 +19,7 @@ e {{ tex e }} :: 'expr_' ::= {{ com expressions }}
 
 t {{ tex \tau }} :: 'type_' ::= {{ com types }}
   | int      ::   :: int {{ tex \token{int} }}
-  | t1 -> t2 ::   :: func
+  | t1 -> t2 ::   :: func {{ tex ([[t1]] [[->]] [[t2]]) }}
   | ( t )    :: S :: paren
   | ?( t )?  :: M :: assoc {{ tex [[t]] }}
 
