@@ -5,7 +5,7 @@ embed
 }
 }}
 
-metavar x ::= {{ com variables }}
+metavar x , y ::= {{ com variables }}
 
 grammar
 e {{ tex e }} :: 'expr_' ::= {{ com expressions }}
@@ -24,17 +24,19 @@ t {{ tex \tau }} :: 'type_' ::= {{ com types }}
   | ?( t )?  :: M :: assoc {{ tex [[t]] }}
 
 G {{ tex \Gamma }} :: 'context_' ::= {{ com typing context }}
-  | empty       ::   :: empty {{ tex \emptyset }}
-  | G1 , x : t  ::   :: cons
-  | G1 , G2     ::   :: append
-  | ctxof x : t ::   :: singleton {{ tex [[x]][[:]][[t]] }}
+  | empty   ::   :: empty {{ tex \epsilon }}
+  | x : t   ::   :: singleton {{ tex [[x]][[:]][[t]] }}
+  | G1 , G2 ::   :: append
 
+%%% We can assign parse precedence to avoid ambiguity
+%%% ... but it tends to be troublesome.
+%%% You may want to design sytax that is not ambigue
+%%% without precedence, or always use ?( ... )?
 parsing
   %% type
   type_func right type_func
   %% context
   context_append left context_append
-  context_append <= context_cons
   %% subst
   expr_subst <= expr_app
   expr_subst <= expr_lam
@@ -43,14 +45,16 @@ parsing
 grammar
 
 terminals :: 'terminals_' ::=
-  | -> ::   :: arrow {{ tex \rightarrow }}
-  | :  ::   :: colon {{ tex \colon }}
-  | := ::   :: subst {{ tex \coloneqq }}
-  | in ::   :: in    {{ tex \in }}
+  | -> ::   :: arrow     {{ tex \rightarrow }}
+  | :  ::   :: colon     {{ tex \colon }}
+  | := ::   :: subst     {{ tex \coloneqq }}
+  | in ::   :: in        {{ tex \in }}
+  | |- ::   :: turnstile {{ tex \vdash }}
 
 formula :: 'formula_' ::=
   | judgement  ::   :: judgement
-  | x : t in G ::   :: context_member {{ com membersip of a typing context }}
+  | x : t in G ::   :: context_member
+    %% You can use {{ tex ... }} here
 
 defns
 
@@ -58,5 +62,6 @@ Jderive :: '' ::=
 
 defn
 G |- e : t :: :: typing :: 'typing'
+%% You can use {{ tex ... }} here
 {{ com typing judgment }}
 by
