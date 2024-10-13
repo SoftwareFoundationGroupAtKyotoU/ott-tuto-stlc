@@ -3,6 +3,13 @@ This project demonstrates how to use Ott to describe a type system with LaTex.
 
 If you want to create a skeleton project, you can use [ott-paper-template](https://github.com/gfngfn/ott-paper-template) by [gfngfn](https://github.com/gfngfn).
 
+## Setup
+1. Install opam (see https://opam.ocaml.org/doc/Install.html)
+2. Install omake and ott
+```
+opam install omake ott
+```
+
 ## How to typeset
 
 ```console

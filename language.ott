@@ -9,9 +9,54 @@ metavar x ::= {{ com variables }}
 
 grammar
 e {{ tex e }} :: 'expr_' ::= {{ com expressions }}
-  | x                ::   :: var   {{ tex [[x]] }}
-  | fun x . e        ::   :: lam   {{ tex \lambda [[x]].\ [[e]] }}
+  | x                ::   :: var
+  | fun x : t . e    ::   :: lam   {{ tex \lambda [[x]]^{[[t]]}.\ [[e]] }}
   | e1 @ e2          ::   :: app   {{ tex [[e1]]\ [[e2]] }}
   | let x = e1 in e2 ::   :: let   {{ tex \token{let}\ [[x]] = [[e1]]\ \token{in}\ [[e2]] }}
-  | ( e )            :: S :: paren {{ tex ([[e]]) }}
+  | ( e )            :: S :: paren
+  | e1 [ x := e2 ]   :: M :: subst
   | ?( e )?          :: M :: assoc {{ tex [[e]] }}
+
+t {{ tex \tau }} :: 'type_' ::= {{ com types }}
+  | int      ::   :: int {{ tex \token{int} }}
+  | t1 -> t2 ::   :: func
+  | ( t )    :: S :: paren
+  | ?( t )?  :: M :: assoc {{ tex [[t]] }}
+
+G {{ tex \Gamma }} :: 'context_' ::= {{ com typing context }}
+  | empty       ::   :: empty {{ tex \emptyset }}
+  | G1 , x : t  ::   :: cons
+  | G1 , G2     ::   :: append
+  | ctxof x : t ::   :: singleton {{ tex [[x]][[:]][[t]] }}
+
+parsing
+  %% type
+  type_func right type_func
+  %% context
+  context_append left context_append
+  context_append <= context_cons
+  %% subst
+  expr_subst <= expr_app
+  expr_subst <= expr_lam
+  expr_subst <= expr_let
+
+grammar
+
+terminals :: 'terminals_' ::=
+  | -> ::   :: arrow {{ tex \rightarrow }}
+  | :  ::   :: colon {{ tex \colon }}
+  | := ::   :: subst {{ tex \coloneqq }}
+  | in ::   :: in    {{ tex \in }}
+
+formula :: 'formula_' ::=
+  | judgement  ::   :: judgement
+  | x : t in G ::   :: context_member {{ com membersip of a typing context }}
+
+defns
+
+Jderive :: '' ::=
+
+defn
+G |- e : t :: :: typing :: 'typing'
+{{ com typing judgment }}
+by
