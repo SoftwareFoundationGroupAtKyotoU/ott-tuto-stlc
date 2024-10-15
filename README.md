@@ -15,3 +15,6 @@ opam install omake ott
 ```console
 $ omake paper
 ```
+
+## Tips on Ott
+* [Ottについての知見が集まる魔法のマークダウン](https://hackmd.io/@ymurase/Hko8wIFRC/edit)
