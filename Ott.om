@@ -13,11 +13,12 @@ public.OttLaTeX(target, otexfiles) =
 		OTTTARGET = $(target)
 		OTTFILE = $(OTTTARGET).$(OTTEXT)
 		OTTTEXFILE = $(OTTTARGET).tex
-		OTTSYSFILE = $(OTTTARGET).$(OTTSYSEXT)
 
+	# Avoid using sysfile. It is reported that unintended
+	# parse errors can occur only through sysfiles.
 	$(OTTTEXFILE) : $(OTTFILE)
-		$(OTT) -writesys $(OTTSYSFILE) $(OTTTEXFLAGS) -o $@ $<
+		$(OTT) $(OTTTEXFLAGS) -i $< -o $@
 
 	foreach(otex => ..., $(otexfiles))
 		$(otex).tex : $(otex).$(OTTTEXEXT) $(OTTTEXFILE)
-			$(OTT) -readsys $(OTTSYSFILE) $(OTTFLAGS) -tex_filter $< $@
+			$(OTT) $(OTTFLAGS) -i $(OTTFILE) -tex_filter $< $@
