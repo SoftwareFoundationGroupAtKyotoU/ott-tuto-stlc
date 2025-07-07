@@ -18,11 +18,9 @@ $(OTT_PREFIX).tex: $(OTT_PREFIX).ott
 
 # Tips with ott options:
 #
-# 1. We should avoid sysfiles. It is reported that
-#    use of sysfiles leads to unexpected lexing issues.
-# 2. We should avoid use of -o and -tex_filter at the same time.
-#    It results in unintended multiple_parses errors even when
-#    any parse results make the same tex output.
+# 1. We should avoid sysfiles. It is reported that use of sysfiles leads to unexpected lexing issues.
+# 2. We should avoid use of -o and -tex_filter at the same time. It results in unintended
+#    multiple_parses errors even when any parse results make the same tex output.
 #
 %.tex: %.otex $(OTT_PREFIX).ott
 	opam exec -- ott $(OTT_FLAGS) \
