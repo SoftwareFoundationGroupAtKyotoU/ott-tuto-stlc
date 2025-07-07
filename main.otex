@@ -69,7 +69,8 @@
 \subsection{Example}
 
 \begin{itemize}
-\item $[[ x1 @ x2 @ x3 ]]$ and $[[ ?(x1 @ x2)? @ x3 ]]$ are expanded to the same latex sources because of the rules in ``parsing'' section, but you can always use \verb|?( ... )?|.
+\item Some ambiguous string like \verb|x1 @ x2 @ x3|, \verb|A1 -> A2 -> A3|, \verb|M1 @ M2 [x := M3]| output $[[x1 @ x2 @ x3]]$, $[[ t1 -> t2 -> t3]]$, $[[ e1 @ e2 [x := e3] ]]$ as expected because they make the same latex output for any parse result.
+
 \item We can use arbitrary integer literals like $[[ 10 ]], [[ 12321 ]]$ by treating them as meta variables with \texttt{lex numeral}.
 \end{itemize}
 \bibliography{bibliography}

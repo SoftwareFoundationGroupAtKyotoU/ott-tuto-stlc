@@ -13,44 +13,42 @@ metavar intliteral ::= {{ lex numeral }}
 
 grammar
 n, m :: 'int_' ::= {{ com integers }}
-  | intliteral ::   :: literal
+  | intliteral :: :: literal
 
 e :: 'expr_' ::= {{ com expressions }}
-  | x                ::   :: var
-  | n                ::   :: int
-  | nil              ::   :: unit
-  | fun x : t . e    ::   :: lam   {{ tex \lambda [[x]]^{[[t]]}.\ [[e]] }}
-  | e1 @ e2          ::   :: app   {{ tex [[e1]]\ [[e2]] }}
-  | let x = e1 in e2 ::   :: let   {{ tex \token{let}\ [[x]] = [[e1]]\ \token{in}\ [[e2]] }}
-  | ( e )            ::   :: paren
-  | e1 [ x := e2 ]   ::   :: subst
-  | ?( e )?          ::   :: assoc {{ tex [[e]] }}
+  | x                :: :: var
+  | n                :: :: int
+  | nil              :: :: unit
+  | fun x : t . e    :: :: lam   {{ tex \lambda [[x]]^{[[t]]}.\ [[e]] }}
+  | e1 @ e2          :: :: app   {{ tex [[e1]]\ [[e2]] }}
+  | let x = e1 in e2 :: :: let   {{ tex \token{let}\ [[x]] = [[e1]]\ \token{in}\ [[e2]] }}
+  | ( e )            :: :: paren
+  | e1 [ x := e2 ]   :: :: subst
+  | ?( e )?          :: :: assoc {{ tex [[e]] }}
 
 t {{ tex \tau }} :: 'type_' ::= {{ com types }}
-  | unit     ::   :: unit
-  | int      ::   :: int {{ tex \token{int} }}
-  | t1 -> t2 ::   :: func
-  | ( t )    :: S :: paren
-  | ?( t )?  :: M :: assoc {{ tex [[t]] }}
+  | unit     :: :: unit
+  | int      :: :: int {{ tex \token{int} }}
+  | t1 -> t2 :: :: func
+  | ( t )    :: :: paren
 
 G {{ tex \Gamma }} :: 'context_' ::= {{ com typing context }}
-  | empty   ::   :: empty {{ tex \epsilon }}
-  | x : t   ::   :: singleton {{ tex [[x]][[:]][[t]] }}
-  | G1 , G2 ::   :: append
+  | empty   :: :: empty {{ tex \epsilon }}
+  | x : t   :: :: singleton {{ tex [[x]][[:]][[t]] }}
+  | G1 , G2 :: :: append
 
 %%% We can assign parse precedence to avoid ambiguity
 %%% ... but it tends to be troublesome.
-%%% You may want to design sytax that is not ambigue
-%%% without precedence, or always use ?( ... )?
+%%% 1. Ott does not show errors for ambiguous input if any parse result make the same latex output
+%%% 2. One can design the grammer to avoid ambiguity, either by arranging each syntax or
+%%%    by introducing explicit syntax for precedence (like expr_assoc in this file)
 parsing
-  %% type
-  type_func right type_func
-  %% context
-  context_append left context_append
-  %% subst
-  expr_subst <= expr_app
-  expr_subst <= expr_lam
-  expr_subst <= expr_let
+  %%% You can uncomment parsing rules below to resolve ambiguity
+  % type_func right type_func
+  % context_append left context_append
+  % expr_subst <= expr_app
+  % expr_subst <= expr_lam
+  % expr_subst <= expr_let
 
 grammar
 
