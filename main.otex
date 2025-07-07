@@ -19,13 +19,15 @@
   \textbf{Variables}&
   $[[ x ]], [[ y ]], \ldots$ && \\
 
+  \textbf{Numbers}&
+  $[[ n ]], [[ m ]]$ & $\in$ & $\mathbb{N}$ \\
+
   \textbf{Expressions} &
-  $[[ e ]], \ldots$ & $\Coloneqq$ &
-  $[[ x ]] \mid [[ fun x:t.e ]] \mid [[ e1 @ e2 ]] \mid [[ let x = e1 in e2 ]] $ \\
+  $[[ e ]]$ & $\Coloneqq$ & $[[ n ]] \mid [[ nil ]] \mid [[ x ]] \mid [[ fun x:t.e ]] \mid [[ e1 @ e2 ]] \mid [[ let x = e1 in e2 ]] $ \\
 
   \textbf{Types} &
   $[[ t ]], \ldots$ & $\Coloneqq$ &
-  $[[ int ]] \mid [[ t1 -> t2 ]]$ \\
+  $[[ int ]] \mid [[unit]] \mid [[ t1 -> t2 ]]$ \\
 
   \textbf{Contexts} &
   $ [[ G ]], \ldots$ & $\Coloneqq$ &
@@ -35,6 +37,17 @@
 \subsection{Typing Rules}
 
 \begin{center}
+  \AxiomC{}
+  \LeftLabel{Int}
+  \UnaryInfC{$[[ G |- n : int ]]$}
+  \DisplayProof
+  \quad
+  \AxiomC{}
+  \LeftLabel{Unit}
+  \UnaryInfC{$[[ G |- nil : unit ]]$}
+  \DisplayProof
+  \vspace{1em}
+
   \AxiomC{$[[ x : t in G ]]$}
   \LeftLabel{Var}
   \UnaryInfC{$[[ G |- x : t ]]$}
@@ -56,7 +69,8 @@
 \subsection{Example}
 
 \begin{itemize}
-\item $[[ x1 @ x2 @ x3 ]]$ and $[[ ?(x1 @ x2)? @ x3 ]]$ are expanded to the same latex sources because of the rules in ``parsing'' section, but you can always use \verb|?( ... )?|. $[[ x : t ]]$
+\item $[[ x1 @ x2 @ x3 ]]$ and $[[ ?(x1 @ x2)? @ x3 ]]$ are expanded to the same latex sources because of the rules in ``parsing'' section, but you can always use \verb|?( ... )?|.
+\item We can use arbitrary integer literals like $[[ 10 ]], [[ 12321 ]]$ by treating them as meta variables with \texttt{lex numeral}.
 \end{itemize}
 \bibliography{bibliography}
 \appendix

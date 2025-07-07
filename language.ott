@@ -7,17 +7,27 @@ embed
 
 metavar x , y ::= {{ com variables }}
 
+%% You can use {{ lex numeral }} to write integer literal
+%% (internally they are treated just as meta variables)
+metavar intliteral ::= {{ lex numeral }}
+
 grammar
-e {{ tex e }} :: 'expr_' ::= {{ com expressions }}
+n, m :: 'int_' ::= {{ com integers }}
+  | intliteral ::   :: literal
+
+e :: 'expr_' ::= {{ com expressions }}
   | x                ::   :: var
+  | n                ::   :: int
+  | nil              ::   :: unit
   | fun x : t . e    ::   :: lam   {{ tex \lambda [[x]]^{[[t]]}.\ [[e]] }}
   | e1 @ e2          ::   :: app   {{ tex [[e1]]\ [[e2]] }}
   | let x = e1 in e2 ::   :: let   {{ tex \token{let}\ [[x]] = [[e1]]\ \token{in}\ [[e2]] }}
-  | ( e )            :: S :: paren
-  | e1 [ x := e2 ]   :: M :: subst
-  | ?( e )?          :: M :: assoc {{ tex [[e]] }}
+  | ( e )            ::   :: paren
+  | e1 [ x := e2 ]   ::   :: subst
+  | ?( e )?          ::   :: assoc {{ tex [[e]] }}
 
 t {{ tex \tau }} :: 'type_' ::= {{ com types }}
+  | unit     ::   :: unit
   | int      ::   :: int {{ tex \token{int} }}
   | t1 -> t2 ::   :: func
   | ( t )    :: S :: paren
@@ -45,11 +55,12 @@ parsing
 grammar
 
 terminals :: 'terminals_' ::=
-  | -> ::   :: arrow     {{ tex \rightarrow }}
-  | :  ::   :: colon     {{ tex \colon }}
-  | := ::   :: subst     {{ tex \coloneqq }}
-  | in ::   :: in        {{ tex \in }}
-  | |- ::   :: turnstile {{ tex \vdash }}
+  | nil ::   :: nil       {{ tex () }}
+  | ->  ::   :: arrow     {{ tex \rightarrow }}
+  | :   ::   :: colon     {{ tex \colon }}
+  | :=  ::   :: subst     {{ tex \coloneqq }}
+  | in  ::   :: in        {{ tex \in }}
+  | |-  ::   :: turnstile {{ tex \vdash }}
 
 formula :: 'formula_' ::=
   | judgement  ::   :: judgement
