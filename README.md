@@ -3,15 +3,15 @@ This project demonstrates how to use Ott to describe a type system with LaTex. Y
 
 ## Setup
 1. Install opam (see https://opam.ocaml.org/doc/Install.html)
-2. Install omake and ott
+2. Install ott
 ```
-opam install omake ott
+opam install ott
 ```
 
 ## How to typeset
 
 ```console
-$ omake paper
+$ make
 ```
 
 ## Tips on Ott
