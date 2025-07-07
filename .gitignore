@@ -7,9 +7,6 @@
 *.synctex.gz
 *.bbl
 *.blg
-*.omc
-.omakedb
-.omakedb.lock
 *.sys
-sections/*.tex
-language.tex
+*.tex
+

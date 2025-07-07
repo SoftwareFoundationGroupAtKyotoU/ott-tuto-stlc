@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{bussproofs}
+\bibliographystyle{plain}
+\title{Using Ott to Define STLC}
+\author{Your Name}
+\input{language}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  This is abstract.
+\end{abstract}
+
+\section{Simply Typed Lambda Calculus}
+\subsection{Syntax}
+\begin{tabular}{clll}
+  \textbf{Variables}&
+  $[[ x ]], [[ y ]], \ldots$ && \\
+
+  \textbf{Expressions} &
+  $[[ e ]], \ldots$ & $\Coloneqq$ &
+  $[[ x ]] \mid [[ fun x:t.e ]] \mid [[ e1 @ e2 ]] \mid [[ let x = e1 in e2 ]] $ \\
+
+  \textbf{Types} &
+  $[[ t ]], \ldots$ & $\Coloneqq$ &
+  $[[ int ]] \mid [[ t1 -> t2 ]]$ \\
+
+  \textbf{Contexts} &
+  $ [[ G ]], \ldots$ & $\Coloneqq$ &
+  $[[ empty ]] \mid [[ G, x:t ]]$ \\
+\end{tabular}
+
+\subsection{Typing Rules}
+
+\begin{center}
+  \AxiomC{$[[ x : t in G ]]$}
+  \LeftLabel{Var}
+  \UnaryInfC{$[[ G |- x : t ]]$}
+  \DisplayProof
+  \quad
+  \AxiomC{$[[ G, x:t1 |- e : t2 ]]$}
+  \LeftLabel{Abs}
+  \UnaryInfC{$[[ G |- fun x:t.e : t1 -> t2 ]]$}
+  \DisplayProof
+  \vspace{1em}
+
+  \AxiomC{$[[ G |- e1 : t1 -> t2 ]]$}
+  \AxiomC{$[[ G |- e2 : t1 ]]$}
+  \LeftLabel{App}
+  \BinaryInfC{$[[ G |- e1@e2 : t2 ]]$}
+  \DisplayProof
+\end{center}
+
+\subsection{Example}
+
+\begin{itemize}
+\item $[[ x1 @ x2 @ x3 ]]$ and $[[ ?(x1 @ x2)? @ x3 ]]$ are expanded to the same latex sources because of the rules in ``parsing'' section, but you can always use \verb|?( ... )?|. $[[ x : t ]]$
+\end{itemize}
+\bibliography{bibliography}
+\appendix
+\section{Appendix}
+\indent
+  This is an appendix.
+\par
+
+\end{document}
