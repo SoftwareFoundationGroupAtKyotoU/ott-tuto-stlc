@@ -60,17 +60,9 @@ terminals :: 'terminals_' ::=
   | in  ::   :: in        {{ tex \in }}
   | |-  ::   :: turnstile {{ tex \vdash }}
 
-formula :: 'formula_' ::=
-  | judgement  ::   :: judgement
+judgments :: 'judgments_' ::=
+  | G |- e : t ::   :: typing_judgment
+
+misc :: 'misc_' ::=
   | x : t in G ::   :: context_member
     %% You can use {{ tex ... }} here
-
-defns
-
-Jderive :: '' ::=
-
-defn
-G |- e : t :: :: typing :: 'typing'
-%% You can use {{ tex ... }} here
-{{ com typing judgment }}
-by
